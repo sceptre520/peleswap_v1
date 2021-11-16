@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import cls from "classnames";
 import { ethers } from "ethers";
 import { useDispatch, useSelector } from 'react-redux';
-import { Blockchain, RestModels, TradeHubSDK } from "tradehub-api-js";
+import { Blockchain, Models, CarbonSDK } from "carbon-js-sdk";
 import Web3Modal from 'web3modal';
 import { Network } from "zilswap-sdk/lib/constants";
 import { ConnectedBridgeWallet } from "core/wallet/ConnectedBridgeWallet";
@@ -20,7 +20,7 @@ import { actions } from "app/store";
 import { BridgeFormState, BridgeState } from 'app/store/bridge/types';
 import { LayoutState, RootState, TokenInfo } from "app/store/types";
 import { AppTheme } from "app/theme/types";
-import { bnOrZero, hexToRGBA, netZilToTradeHub, useAsyncTask, useNetwork, useTokenFinder } from "app/utils";
+import { bnOrZero, hexToRGBA, netZilToCarbon, useAsyncTask, useNetwork, useTokenFinder } from "app/utils";
 import { BIG_ZERO } from "app/utils/constants";
 import { ConnectButton } from "./components";
 import { BridgeParamConstants } from "./components/constants";
@@ -176,8 +176,8 @@ const BridgeView: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any) 
     transferAmount: bridgeFormState.transferAmount.toString() || "0"
   });
   const layoutState = useSelector<RootState, LayoutState>(store => store.layout);
-  const [sdk, setSdk] = useState<TradeHubSDK | null>(null);
-  const [runInitTradeHubSDK] = useAsyncTask("initTradeHubSDK");
+  const [sdk, setSdk] = useState<CarbonSDK | null>(null);
+  const [runInitCarbonSDK] = useAsyncTask("initCarbonSDK");
   const [runLoadGasPrice] = useAsyncTask("loadGasPrice");
   const [disconnectMenu, setDisconnectMenu] = useState<any>();
   const [gasPrice, setGasPrice] = useState<BigNumber | undefined>();
@@ -196,9 +196,9 @@ const BridgeView: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any) 
   }, [sdk, gasPrice])
 
   useEffect(() => {
-    runInitTradeHubSDK(async () => {
-      const tradehubNetwork = netZilToTradeHub(network)
-      const sdk = new TradeHubSDK({ network: tradehubNetwork });
+    runInitCarbonSDK(async () => {
+      const carbonNetwork = netZilToCarbon(network)
+      const sdk = await CarbonSDK.instance({ network: carbonNetwork });
       await sdk.token.reloadTokens();
       setSdk(sdk);
     })
@@ -496,7 +496,7 @@ const BridgeView: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any) 
   }, [formState, bridgeFormState.transferAmount, fromToken])
 
   // returns true if asset is native coin, false otherwise
-  const isNativeAsset = (asset: RestModels.Token) => {
+  const isNativeAsset = (asset: Models.Token) => {
     const zeroAddress = "0000000000000000000000000000000000000000";
     return (asset.asset_id === zeroAddress)
   }
