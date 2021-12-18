@@ -7,6 +7,10 @@ import { BIG_ZERO } from "app/utils/constants";
 import { logger } from "core/utilities";
 import { ConnectedWallet, } from "core/wallet/ConnectedWallet";
 
+import { Contract } from "@zilliqa-js/contract";
+import { BN, Long, bytes, units } from "@zilliqa-js/util";
+import { async } from "validate.js";
+
 export interface ConnectProps {
   wallet: ConnectedWallet;
   network: Network;
@@ -76,6 +80,7 @@ export interface TokenContractAllowancesState {
 }
 
 let zilswap: Zilswap | null = null
+let peleswap: Contract | null = null
 
 /**
  * Checks transaction receipt for error, and throw the top level exception
@@ -99,6 +104,10 @@ const handleObservedTx = (observedTx: ObservedTx) => {
 export class ZilswapConnector {
   static setSDK = (sdk: Zilswap | null) => {
     zilswap = sdk
+  }
+
+  static setContract = (pm_contract: Contract) => {
+    peleswap = pm_contract
   }
 
   static getSDK = (): Zilswap => {
@@ -222,15 +231,41 @@ export class ZilswapConnector {
    */
   static addLiquidity = async (props: AddLiquidityProps) => {
     if (!zilswap) throw new Error('not initialized');
+    if (!peleswap) throw new Error('not initialized');
     logger(props.tokenID);
     logger(props.zilAmount.toString());
     logger(props.tokenAmount.toString());
     logger(props.maxExchangeRateChange);
-    const observedTx = await zilswap.addLiquidity(
-      props.tokenID,
-      props.zilAmount.toString(),
-      props.tokenAmount.toString(),
-      props.maxExchangeRateChange);
+
+    const observedTx2 = await peleswap.call(
+      'setHello',
+      [
+        {
+          vname: 'msg',
+          type: 'String',
+          value: 'Test PP2'
+        }
+      ],
+      {
+        version: bytes.pack(333, 1),
+        amount: new BN(0),
+        gasPrice: units.toQa('2000', units.Units.Li),
+        gasLimit: Long.fromNumber(10000),
+      }
+    );
+
+    const cur = await ZilswapConnector.getCurrentBlock()
+    const observedTx: ObservedTx = {
+      hash: observedTx2.hash,
+      deadline: cur+3
+    }
+
+    // const observedTx = await zilswap.addLiquidity(
+    //   props.tokenID,
+    //   props.zilAmount.toString(),
+    //   props.tokenAmount.toString(),
+    //   props.maxExchangeRateChange);
+
     handleObservedTx(observedTx);
 
     return observedTx;

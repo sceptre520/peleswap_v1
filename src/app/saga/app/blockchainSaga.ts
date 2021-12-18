@@ -1,10 +1,11 @@
 
 import { Channel, EventChannel, channel, eventChannel } from "redux-saga";
 import { call, cancelled, fork, put, select, take, takeEvery } from "redux-saga/effects";
-import { AppState, ObservedTx, TxReceipt, TxStatus, Zilswap } from "zilswap-sdk";
+import { AppState, ObservedTx, TxReceipt, TxStatus, Zilswap, WalletProvider } from "zilswap-sdk";
 import { ZiloAppState } from "zilswap-sdk/lib/zilo"
+import { Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network, } from "zilswap-sdk/lib/constants";
 import { Blockchain } from "tradehub-api-js";
 import { ConnectedWallet, WalletConnectType, connectWalletBoltX, connectWalletZilPay } from "core/wallet";
 import { ZILO_DATA } from "core/zilo/constants";
@@ -18,7 +19,7 @@ import { getConnectedBoltX } from "core/utilities/boltx";
 import { SimpleMap } from "app/utils";
 import { BridgeableToken } from "app/store/bridge/types";
 import { detachedToast } from "app/utils/useToaster";
-import { BRIDGEABLE_WRAPPED_DENOMS, BoltXNetworkMap, RPCEndpoints, ZIL_ADDRESS, WZIL_TOKEN_CONTRACT } from "app/utils/constants";
+import { BRIDGEABLE_WRAPPED_DENOMS, BoltXNetworkMap, RPCEndpoints, ZIL_ADDRESS, WZIL_TOKEN_CONTRACT, PELE_SWAP_CONTRACT } from "app/utils/constants";
 import { TokenInfo, Transaction } from "app/store/types";
 import { BridgeWalletAction, WalletAction, WalletActionTypes } from "app/store/wallet/actions";
 import { ChainInitAction } from "app/store/blockchain/actions";
@@ -227,6 +228,8 @@ const addToken = (r: SimpleMap<TokenInfo>, t: TradeHubToken) => {
 
 function* initialize(action: ChainInitAction, txChannel: Channel<TxObservedPayload>, stateChannel: Channel<StateChangeObservedPayload>) {
   let sdk: Zilswap | null = null;
+  var zilliqa : Zilliqa | null = null;
+  var walletprov : WalletProvider | null = null;
   try {
     yield put(actions.Layout.addBackgroundLoading('initChain', 'INIT_CHAIN'))
     yield put(actions.Wallet.update({ wallet: null }))
@@ -238,6 +241,18 @@ function* initialize(action: ChainInitAction, txChannel: Channel<TxObservedPaylo
 
     logger('init chain zilswap sdk')
     sdk = new Zilswap(network, providerOrKey ?? undefined, { rpcEndpoint: RPCEndpoints[network] });
+    if (typeof wallet === 'string') {
+      zilliqa = new Zilliqa(RPCEndpoints[network]);
+    }
+    else if (wallet && wallet.provider) {
+      zilliqa = new Zilliqa(RPCEndpoints[network], wallet.provider.provider);
+      walletprov = wallet.provider;
+    }
+    else {
+      zilliqa = new Zilliqa(RPCEndpoints[network]);
+    }
+    var contract = (walletprov || zilliqa).contracts.at(PELE_SWAP_CONTRACT[network]);
+    ZilswapConnector.setContract(contract)
     logger('zilswap sdk initialized')
 
     yield call([sdk, sdk.initialize], txObserver(txChannel), observingTxs)
