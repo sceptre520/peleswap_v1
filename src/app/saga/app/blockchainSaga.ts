@@ -5,7 +5,7 @@ import { AppState, ObservedTx, TxReceipt, TxStatus, Zilswap, WalletProvider } fr
 import { ZiloAppState } from "zilswap-sdk/lib/zilo"
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { Network, } from "zilswap-sdk/lib/constants";
+import { Network } from "zilswap-sdk/lib/constants";
 import { Blockchain } from "tradehub-api-js";
 import { ConnectedWallet, WalletConnectType, connectWalletBoltX, connectWalletZilPay } from "core/wallet";
 import { ZILO_DATA } from "core/zilo/constants";

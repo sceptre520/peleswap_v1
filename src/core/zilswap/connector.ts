@@ -9,7 +9,6 @@ import { ConnectedWallet, } from "core/wallet/ConnectedWallet";
 
 import { Contract } from "@zilliqa-js/contract";
 import { BN, Long, bytes, units } from "@zilliqa-js/util";
-import { async } from "validate.js";
 
 export interface ConnectProps {
   wallet: ConnectedWallet;
