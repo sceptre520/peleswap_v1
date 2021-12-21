@@ -252,7 +252,7 @@ function* initialize(action: ChainInitAction, txChannel: Channel<TxObservedPaylo
       zilliqa = new Zilliqa(RPCEndpoints[network]);
     }
     var contract = (walletprov || zilliqa).contracts.at(PELE_SWAP_CONTRACT[network]);
-    ZilswapConnector.setContract(contract)
+    const appState: AppState = yield call([ZilswapConnector, ZilswapConnector.setContract], contract, zilliqa, walletprov, network);
     logger('zilswap sdk initialized')
 
     yield call([sdk, sdk.initialize], txObserver(txChannel), observingTxs)
@@ -267,7 +267,10 @@ function* initialize(action: ChainInitAction, txChannel: Channel<TxObservedPaylo
 
     logger('init chain load tokens')
     // load tokens
-    const appState: AppState = yield call([sdk, sdk.getAppState]);
+    // const appState: AppState = yield call([sdk, sdk.getAppState]);
+    // console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    // console.log(appState)
+
     const zilswapTokens = appState.tokens
     const tokens: SimpleMap<TokenInfo> = Object.keys(zilswapTokens).reduce((acc, addr) => {
       const tkn = zilswapTokens[addr]
@@ -284,7 +287,8 @@ function* initialize(action: ChainInitAction, txChannel: Channel<TxObservedPaylo
         name: tkn.name,
         balance: undefined,
         allowances: {},
-        pool: sdk!.getPool(tkn.address) || undefined,
+        // pool: sdk!.getPool(tkn.address) || undefined,
+        pool: undefined,
         blockchain: Blockchain.Zilliqa,
       }
       return acc
@@ -314,6 +318,9 @@ function* initialize(action: ChainInitAction, txChannel: Channel<TxObservedPaylo
       addMapping(result, sourceToken, wrappedToken, sourceToken.blockchain)
     })
 
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    console.log(tokens)
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
     logger('init chain set tokens')
     yield put(actions.Bridge.setTokens(result))
     yield put(actions.Token.init({ tokens }));

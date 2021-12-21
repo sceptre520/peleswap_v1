@@ -1,6 +1,6 @@
-import { fromBech32Address } from "@zilliqa-js/crypto";
+import { fromBech32Address, toBech32Address } from "@zilliqa-js/crypto";
 import BigNumber from "bignumber.js";
-import { ObservedTx, Pool, TokenDetails, Zilswap } from "zilswap-sdk";
+import { ObservedTx, Pool, TokenDetails, Zilswap, WalletProvider } from "zilswap-sdk";
 import { Network } from "zilswap-sdk/lib/constants";
 import { BIG_ZERO } from "app/utils/constants";
 
@@ -9,6 +9,9 @@ import { ConnectedWallet, } from "core/wallet/ConnectedWallet";
 
 import { Contract } from "@zilliqa-js/contract";
 import { BN, Long, bytes, units } from "@zilliqa-js/util";
+import { Zilliqa } from "@zilliqa-js/zilliqa";
+import { TOKEN_LIST } from "./constants_cus";
+import { ZIL_ADDRESS } from "app/utils/constants";
 
 export interface ConnectProps {
   wallet: ConnectedWallet;
@@ -80,6 +83,10 @@ export interface TokenContractAllowancesState {
 
 let zilswap: Zilswap | null = null
 let peleswap: Contract | null = null
+let zilliqa: Zilliqa | null = null
+interface TokenObject {
+  [key: string]: any
+}
 
 /**
  * Checks transaction receipt for error, and throw the top level exception
@@ -105,8 +112,115 @@ export class ZilswapConnector {
     zilswap = sdk
   }
 
-  static setContract = (pm_contract: Contract) => {
+  static setContract = async (pm_contract: Contract, pm_zilliqa: Zilliqa, pm_wallet: WalletProvider|null, pm_network: Network) => {
     peleswap = pm_contract
+    zilliqa = pm_zilliqa
+
+    var api_tokens:TokenObject = TOKEN_LIST[Network.MainNet]
+    var api_token_hash:Array<string> = []
+    var token:TokenObject = TOKEN_LIST[pm_network]
+    // var token:TokenObject = {}
+    // if(true) {
+    if(pm_network == Network.MainNet) {
+      var res = await fetch('https://api.zilstream.com/tokens')
+      var data = await res.json()
+      for(var z in data) {
+        api_tokens[data[z].symbol] = data[z].address_bech32
+        api_token_hash.push(fromBech32Address(data[z].address_bech32))
+      }
+    }
+
+    var contractState = await peleswap.getState()
+    var poolTokenHashes = Object.keys(contractState.pools);
+    var tokenHashes = poolTokenHashes.concat(api_token_hash.filter(function (item) { return poolTokenHashes.indexOf(item) < 0; }));
+    
+    for(var x in tokenHashes) {
+      var address = toBech32Address(tokenHashes[x])
+      if(address === ZIL_ADDRESS) {
+        token[tokenHashes[x]] = {
+          contract: null, address: address, hash: tokenHashes[x], name: 'Zilliqa', symbol: 'ZIL', decimals: 12, whitelisted: true, registered: true
+        }
+      }
+      else {
+        var contract = await pm_zilliqa.contracts.at(address)
+        var init = await contract.getInit()
+        if(init !== undefined) {
+          var decimalStr = '0';
+          var name = '';
+          var symbol = '';
+          for(var y in init) {
+            if(init[y].vname === 'decimals') {
+              decimalStr = init[y].value
+            }
+            if(init[y].vname === 'name') {
+              name = init[y].value
+            }
+            if(init[y].vname === 'symbol') {
+              symbol = init[y].value
+            }
+          }
+          var decimals = parseInt(decimalStr, 10);
+          var registered = false;
+          var whitelisted = false;
+          token[tokenHashes[x]] = {
+            contract: contract, address: address, hash: tokenHashes[x], name: name, symbol: symbol, decimals: decimals, whitelisted: registered, registered: whitelisted
+          }
+        }
+      }
+    }
+
+    var currentUser = pm_wallet?.wallet.defaultAccount.base16
+    // var currentUser = ''
+    
+    var pools: TokenObject = {}
+    for (var k in contractState.pools) {
+      var _a = contractState.pools[k].arguments;
+      var zilReserve = new BigNumber(_a[0]);
+      var tokenReserve = new BigNumber(_a[1]);
+      var exchangeRate = zilReserve.dividedBy(tokenReserve);
+      var totalContribution = new BigNumber(contractState.total_contributions[k]);
+      var poolBalances = contractState.balances[k];
+      var userContribution = new BigNumber(poolBalances && currentUser ? poolBalances[currentUser] || 0 : 0);
+      var contributionPercentage = userContribution.dividedBy(totalContribution).times(100);
+      pools[k] = {
+        zilReserve: zilReserve,
+        tokenReserve: tokenReserve,
+        exchangeRate: exchangeRate,
+        totalContribution: totalContribution,
+        userContribution: userContribution,
+        contributionPercentage: contributionPercentage,
+      };
+    }
+
+    return {
+      contractState: contractState,
+      tokens: token,
+      pools: pools,
+      currentUser: currentUser,
+      currentNonce: 0,
+      currentBalance: 0
+    }
+    
+    // var sub = await peleswap.getSubState("pools")
+    // const smartContractState = await zilliqa.blockchain.getSmartContractSubState(
+    //   'bd3fa050b1031bc4c91b489acb1d735f58858452', 'output_after_fee'
+    // );
+    // console.log('********************************************************')
+    // console.log(sub)
+
+    // const smartContractState1 = await zilliqa.blockchain.getSmartContractSubState(
+    //   'bd3fa050b1031bc4c91b489acb1d735f58858452', 'pools'
+    // );
+    // console.log('********************************************************')
+    // console.log(smartContractState1)
+    // const smartContractState2 = await zilliqa.blockchain.getSmartContractSubState(
+    //   'bd3fa050b1031bc4c91b489acb1d735f58858452', 'total_contributions'
+    // );
+    // console.log('********************************************************')
+    // console.log(smartContractState2)
+    // var tokens = ZilswapConnector.getTokenList(pm_network)
+    // console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    // console.log(tokens)
   }
 
   static getSDK = (): Zilswap => {

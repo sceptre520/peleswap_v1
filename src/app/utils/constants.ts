@@ -93,8 +93,10 @@ export const WZIL_TOKEN_CONTRACT = {
 }
 
 export const PELE_SWAP_CONTRACT = {
-  [Network.MainNet]: "0xbd3fa050b1031bc4c91b489acb1d735f58858452",
-  [Network.TestNet]: "0x86e09e1b0810780c8881c062e8a6b42ee8080713",
+  // [Network.MainNet]: "0xbd3fa050b1031bc4c91b489acb1d735f58858452",
+  [Network.MainNet]: "0x459CB2d3BAF7e61cFbD5FE362f289aE92b2BaBb0", // zilswap
+  [Network.TestNet]: "0xbd3fa050b1031bc4c91b489acb1d735f58858452",
+  // [Network.TestNet]: "0x86e09e1b0810780c8881c062e8a6b42ee8080713", // hello
 }
 
 export const BRIDGEABLE_WRAPPED_DENOMS = {
