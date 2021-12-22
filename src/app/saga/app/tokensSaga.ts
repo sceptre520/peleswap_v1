@@ -1,6 +1,6 @@
 
 import BigNumber from "bignumber.js";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { Task } from "redux-saga";
 import { all, call, cancel, delay, fork, put, race, select, take } from "redux-saga/effects";
 

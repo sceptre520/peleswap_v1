@@ -1,11 +1,11 @@
 import { fromBech32Address } from "@zilliqa-js/crypto";
 import BigNumber from "bignumber.js";
-import { ObservedTx, Pool, TokenDetails, Zilswap } from "zilswap-sdk";
-import { Network } from "zilswap-sdk/lib/constants";
+import { ObservedTx, Pool, TokenDetails, Zilswap } from "peleswap-sdk";
+import { Network } from "peleswap-sdk/lib/constants";
 import { BIG_ZERO } from "app/utils/constants";
 
 import { logger } from "core/utilities";
-import { ConnectedWallet, } from "core/wallet/ConnectedWallet";
+import { ConnectedWallet } from "core/wallet/ConnectedWallet";
 
 export interface ConnectProps {
   wallet: ConnectedWallet;
@@ -216,7 +216,7 @@ export class ZilswapConnector {
    * @param zilAmount BigNumber
    * @param tokenAmount BigNumber
    * @param maxExchangeRateChange number?
-   * @see zilswap-sdk documentation
+   * @see peleswap-sdk documentation
    *
    * @throws "not initialized" if `ZilswapConnector.setSDK` has not been called.
    */
@@ -243,7 +243,7 @@ export class ZilswapConnector {
    * @param tokenID string
    * @param contributionAmount BigNumber
    * @param maxExchangeRateChange number?
-   * @see zilswap-sdk documentation
+   * @see peleswap-sdk documentation
    *
    * @throws "not initialized" if `ZilswapConnector.setSDK` has not been called.
    */
@@ -273,7 +273,7 @@ export class ZilswapConnector {
    * @param tokenOutID string
    * @param amount BigNumber
    * @param maxAdditionalSlippage number?
-   * @see zilswap-sdk documentation
+   * @see peleswap-sdk documentation
    *
    * @throws "not initialized" if `ZilswapConnector.setSDK` has not been called.
    */
@@ -310,7 +310,7 @@ export class ZilswapConnector {
    *
    * @param address string - ZILO contract address to contribute to
    * @param amount BigNumber - ZIL amount to contribute
-   * @see zilswap-sdk documentation
+   * @see peleswap-sdk documentation
    *
    * @throws "not initialized" if `ZilswapConnector.setSDK` has not been called.
    */
@@ -330,7 +330,7 @@ export class ZilswapConnector {
    * `Zilo.claim`
    *
    * @param address string - ZILO contract address to claim from
-   * @see zilswap-sdk documentation
+   * @see peleswap-sdk documentation
    *
    * @throws "not initialized" if `ZilswapConnector.setSDK` has not been called.
    */

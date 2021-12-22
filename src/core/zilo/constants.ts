@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 
 export type ILOData = {
   comingSoon?: boolean

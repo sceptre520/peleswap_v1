@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { call, delay, fork, put, race, select, take } from "redux-saga/effects";
 import { Blockchain, ConnectedTradeHubSDK, RestModels, SWTHAddress, TradeHubSDK, TradeHubTx } from "tradehub-api-js";
 import { BN_ONE } from "tradehub-api-js/build/main/lib/tradehub/utils";
-import { APIS, Network } from "zilswap-sdk/lib/constants";
+import { APIS, Network } from "peleswap-sdk/lib/constants";
 import { FeesData } from "core/utilities/bridge";
 import { Bridge, logger } from "core/utilities";
 import { ZilswapConnector } from "core/zilswap";

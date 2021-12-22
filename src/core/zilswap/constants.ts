@@ -1,4 +1,4 @@
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 
 export const REWARDS_DISTRIBUTOR_CONTRACT = {
   [Network.MainNet]: "zil17vn9jep2s2ajqf694tygg83nrv6nmyqjja8t85",

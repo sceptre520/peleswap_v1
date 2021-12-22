@@ -52,14 +52,14 @@ const Notifications: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: an
     <Box {...rest} className={cls(classes.root, className)}>
       {isPool ?
         <UserPoolMessage token={userToken}>
-          Liquidity pools created by other users are not screened or audited by ZilSwap.
-          All tokens (including ZIL) deposited may be lost if the ZRC-2 token contract
+          Liquidity pools created by other users are not screened or audited by PeleSwap.
+          All tokens (including PELE) deposited may be lost if the ZRC-2 token contract
           is malicious or otherwise exploited.
           Please conduct your own due diligence before contributing liquidity.
           </UserPoolMessage>
         :
         <UserPoolMessage token={userToken}>
-          ZRC-2 tokens issued by other users are not screened or audited by ZilSwap.
+          ZRC-2 tokens issued by other users are not screened or audited by PeleSwap.
           There is no guarantee that your purchased tokens will maintain its current swap value.
           Please conduct your own due diligence before swapping.
         </UserPoolMessage>

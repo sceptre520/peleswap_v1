@@ -1,5 +1,5 @@
-import { ObservedTx } from "zilswap-sdk";
-import { Network } from "zilswap-sdk/lib/constants";
+import { ObservedTx } from "peleswap-sdk";
+import { Network } from "peleswap-sdk/lib/constants";
 import { ConnectedWallet } from "core/wallet";
 import { WalletActionTypes as WalletTypes } from "../wallet/actions";
 import { BlockchainActionTypes as BlockchainTypes } from "../blockchain/actions";

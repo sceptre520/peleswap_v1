@@ -14,9 +14,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     paddingTop: 2,
     '& svg': {
-      height: 24,
-      '& .st0': {
-        fill: '#169BA3!important',
+      width: 200,
+      height: 34,
+      fill: '#FFFFFF!important',
+      '& g': {
+        fill: '#FFFFFF!important',
       }
     },
     marginLeft: -8

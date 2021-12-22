@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Pool } from "zilswap-sdk";
+import { Pool } from "peleswap-sdk";
 import { SimpleMap } from "app/utils";
 
 export type TokenUSDValues = {

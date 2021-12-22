@@ -1,4 +1,4 @@
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { DefaultFallbackNetwork, LocalStorageKeys } from "app/utils/constants";
 import { BlockchainState } from "./types";
 import { BlockchainActionTypes } from "./actions";

@@ -1,6 +1,6 @@
 
 import { fromBech32Address } from "@zilliqa-js/crypto";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 
 import { HTTP } from "core/utilities";
 import { TokenInfo } from "app/store/types";

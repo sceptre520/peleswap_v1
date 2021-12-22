@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
-import { WalletProvider } from "zilswap-sdk";
-import { Network } from "zilswap-sdk/lib/constants";
+import { WalletProvider } from "peleswap-sdk";
+import { Network } from "peleswap-sdk/lib/constants";
 import {
   ConnectedWallet,
   WalletAccountInfo,

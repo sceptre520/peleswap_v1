@@ -4,7 +4,7 @@ import { toBech32Address } from "@zilliqa-js/crypto";
 import cls from "classnames";
 import { useSelector } from "react-redux";
 import { Blockchain } from "tradehub-api-js/build/main/lib/tradehub/utils";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { useNetwork } from "app/utils";
 import { AppTheme } from "app/theme/types";
 import { BridgeableTokenMapping, RootState } from "app/store/types";

@@ -3,7 +3,7 @@ import { Box, Button, ButtonProps, CircularProgress, Tooltip, Typography } from 
 import { makeStyles } from "@material-ui/core/styles";
 import cls from "classnames";
 import { useDispatch, useSelector } from "react-redux";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { actions } from "app/store";
 import { RootState, WalletState } from "app/store/types";
 import { useNetwork, useTaskSubscriber } from "app/utils";

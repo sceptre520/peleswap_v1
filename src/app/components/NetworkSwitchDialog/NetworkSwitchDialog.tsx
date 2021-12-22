@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import cls from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { Blockchain } from "tradehub-api-js/build/main/lib/tradehub/utils";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { ConnectedBridgeWallet } from "core/wallet/ConnectedBridgeWallet";
 import { ConnectedWallet, WalletConnectType } from "core/wallet";
 import { useNetwork } from "app/utils";

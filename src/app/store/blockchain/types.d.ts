@@ -1,7 +1,7 @@
 
-import { ContractState } from "zilswap-sdk";
-import { ZiloAppState } from "zilswap-sdk/lib/zilo";
-import { Network } from "zilswap-sdk/lib/constants"
+import { ContractState } from "peleswap-sdk";
+import { ZiloAppState } from "peleswap-sdk/lib/zilo";
+import { Network } from "peleswap-sdk/lib/constants"
 import { ConnectedWallet } from "core/wallet";
 
 export interface BlockchainState {

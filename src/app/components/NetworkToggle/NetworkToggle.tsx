@@ -9,7 +9,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import cls from "classnames";
 import { useDispatch, useSelector } from "react-redux";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { TypographyOptions } from "@material-ui/core/styles/createTypography";
 import { WalletConnectType } from "core/wallet";
 import { actions } from "app/store";

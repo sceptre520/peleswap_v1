@@ -4,7 +4,7 @@ import {
   TableContainer, TableHead, TableRow, useMediaQuery, useTheme
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { ObservedTx } from "zilswap-sdk";
+import { ObservedTx } from "peleswap-sdk";
 import groupBy from "lodash/groupBy";
 import { useDispatch, useSelector } from "react-redux";
 import cls from "classnames"

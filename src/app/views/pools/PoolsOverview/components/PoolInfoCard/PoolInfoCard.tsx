@@ -14,7 +14,7 @@ import { EMPTY_USD_VALUE } from "app/store/token/reducer";
 import { PoolSwapVolumeMap, RewardsState, RootState, TokenInfo, TokenState, WalletState } from "app/store/types";
 import { AppTheme } from "app/theme/types";
 import { hexToRGBA, toHumanNumber, useNetwork, useValueCalculators } from "app/utils";
-import { BIG_ONE, BIG_ZERO, ZIL_ADDRESS } from "app/utils/constants";
+import { BIG_ONE, BIG_ZERO, ZIL_ADDRESS, PELE_ADDRESS, PELE_DECIMALS } from "app/utils/constants";
 
 interface Props extends CardProps {
   token: TokenInfo;
@@ -88,7 +88,7 @@ const PoolInfoCard: React.FC<Props> = (props: Props) => {
   const poolShare = token.pool?.contributionPercentage.shiftedBy(-2) ?? BIG_ZERO;
   const poolShareLabel = poolShare.shiftedBy(2).decimalPlaces(3).toString(10) ?? "";
   const tokenAmount = toHumanNumber(poolShare.times(token.pool?.tokenReserve ?? BIG_ZERO).shiftedBy(-decimals));
-  const zilAmount = toHumanNumber(poolShare.times(token.pool?.zilReserve ?? BIG_ZERO).shiftedBy(-12));
+  const peleAmount = toHumanNumber(poolShare.times(token.pool?.zilReserve ?? BIG_ZERO).shiftedBy(-PELE_DECIMALS));
   // const depositedValue = poolShare.times(usdValues?.poolLiquidity ?? BIG_ZERO);
 
   const potentialRewards = rewardsState.potentialRewardsByPool[token.address] || [];
@@ -114,7 +114,7 @@ const PoolInfoCard: React.FC<Props> = (props: Props) => {
             </Box>
             <Divider className={classes.divider} />
             <Box display="flex" justifyContent="flex-end">
-              <CurrencyLogo className={classes.logo} currency="ZIL" address={ZIL_ADDRESS} />
+              <CurrencyLogo className={classes.logo} currency="PELE" address={PELE_ADDRESS[network]} />
             </Box>
           </Box>
         </Box>
@@ -124,8 +124,8 @@ const PoolInfoCard: React.FC<Props> = (props: Props) => {
             <Text className={classes.token}>{token.symbol}</Text>
           </Box>
           <Box px={"16px"} display="flex">
-            <Text className={classes.poolSize}>{toHumanNumber(token.pool?.zilReserve.shiftedBy(-12), 2)}</Text>
-            <Text className={classes.token}>ZIL</Text>
+            <Text className={classes.poolSize}>{toHumanNumber(token.pool?.zilReserve.shiftedBy(-PELE_DECIMALS), 2)}</Text>
+            <Text className={classes.token}>PELE</Text>
           </Box>
         </Box>
 
@@ -227,7 +227,7 @@ const PoolInfoCard: React.FC<Props> = (props: Props) => {
           <Box flex={1}>
             <KeyValueDisplay marginBottom={1.5} kkey="Pool Name" ValueComponent="span" className={classes.keyDisplay}>
               <Box mt={1}>
-                <Text variant="h4"> <span className={classes.titleColoured}>{token.symbol}</span> - <span className={classes.titleColoured}> ZIL </span></Text>
+                <Text variant="h4"> <span className={classes.titleColoured}>{token.symbol}</span> - <span className={classes.titleColoured}> PELE </span></Text>
               </Box>
             </KeyValueDisplay>
           </Box>
@@ -243,7 +243,7 @@ const PoolInfoCard: React.FC<Props> = (props: Props) => {
             <KeyValueDisplay marginBottom={1.5} kkey="24-Hour Volume" ValueComponent="span" className={classes.keyDisplay}>
               <Box mt={1}>
                 <Text variant="h4">
-                  <span className={classes.titleColoured}>{(swapVolumes[token.address]?.totalZilVolume || BIG_ZERO).shiftedBy(-12).dp(0).toFormat()}</span> ZIL
+                  <span className={classes.titleColoured}>{(swapVolumes[token.address]?.totalZilVolume || BIG_ZERO).shiftedBy(-PELE_DECIMALS).dp(0).toFormat()}</span> PELE
                 </Text>
                 <Text className={classes.label}>
                   ${totalZilVolumeUSD?.dp(0).toFormat()}
@@ -267,7 +267,7 @@ const PoolInfoCard: React.FC<Props> = (props: Props) => {
                   <KeyValueDisplay marginBottom={1.5} kkey="Your Stake" ValueComponent="span" className={classes.keyDisplay}>
                     <Box display="flex" flexDirection="column" mt={1}>
                       <Text variant="h4" className={classes.stakeText}>
-                        <span className={classes.textColoured}>{tokenAmount}</span> {token.symbol}  <ViewHeadline className={classes.viewIcon} /><span className={classes.textColoured}>{zilAmount}</span> ZIL
+                        <span className={classes.textColoured}>{tokenAmount}</span> {token.symbol}  <ViewHeadline className={classes.viewIcon} /><span className={classes.textColoured}>{peleAmount}</span> PELE
                       </Text>
                       <Text className={classes.label}>
                         {poolShareLabel}%
@@ -309,7 +309,7 @@ const PoolInfoCard: React.FC<Props> = (props: Props) => {
               !poolShare.isZero() &&
               <KeyValueDisplay marginBottom={1.5} kkey={`Your Pool Share (${poolShareLabel}%)`} ValueComponent="span">
                 <Text align="right" className={classes.label}>
-                  <span className={classes.textColoured}>{tokenAmount}</span> {token.symbol} + <span className={classes.textColoured}>{zilAmount}</span> ZIL
+                  <span className={classes.textColoured}>{tokenAmount}</span> {token.symbol} + <span className={classes.textColoured}>{peleAmount}</span> ZIL
                   (${toHumanNumber(depositedValue, 2)})
                 </Text>
               </KeyValueDisplay>

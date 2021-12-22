@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import dayjs from "dayjs";
 import { Blockchain } from "tradehub-api-js";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { logger } from "core/utilities";
 import { DataCoder, bnOrZero } from "app/utils";
 import { LocalStorageKeys } from "app/utils/constants";

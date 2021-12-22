@@ -5,7 +5,7 @@ import { toBech32Address } from "@zilliqa-js/zilliqa";
 import BigNumber from "bignumber.js"
 import dayjs, { Dayjs } from "dayjs";
 import { useSelector } from "react-redux";
-import { ObservedTx } from "zilswap-sdk";
+import { ObservedTx } from "peleswap-sdk";
 import { ArkBox, FancyButton, ArkAcceptBidDialog } from "app/components";
 import { Cheque, WalletState } from "app/store/types";
 import { AppTheme } from "app/theme/types";

@@ -43,7 +43,7 @@ const NewPoolMessage: React.FC<NewPoolMessageProps> = (props: NewPoolMessageProp
         <Typography className={classes.notificationMessage} variant="body2">
           You are the first person to add liquidity.
           The initial exchange rate will be set based on your deposits.
-          Make sure that your ZIL and deposits have the same fiat value.
+          Make sure that your PELE and deposits have the same fiat value.
           <Link className={classes.viewDetail} rel="noopener noreferrer" target="_blank" href="https://docs.zilswap.org/#/smart-contract?id=addliquidity">
             Learn More
           </Link>

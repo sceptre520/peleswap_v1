@@ -9,7 +9,7 @@ import cls from "classnames";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { ArkOwnerLabel, ArkImageView, ZapWidget, CurrencyLogo, ArkSocialShareDialog } from "app/components";
 import { getTokens, getWallet } from "app/saga/selectors";
 import { actions } from "app/store";

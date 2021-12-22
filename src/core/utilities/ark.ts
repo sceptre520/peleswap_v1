@@ -3,8 +3,8 @@ import { CallParams } from '@zilliqa-js/contract'
 import { BN, bytes, Long } from '@zilliqa-js/util';
 import BigNumber from "bignumber.js";
 import dayjs from "dayjs";
-import { Zilswap } from "zilswap-sdk";
-import { Network, ZIL_HASH } from "zilswap-sdk/lib/constants";
+import { Zilswap } from "peleswap-sdk";
+import { Network, ZIL_HASH } from "peleswap-sdk/lib/constants";
 import { Cheque, Collection, CollectionWithStats, Nft, OAuth, Profile, SimpleCheque, TraitType, QueryNftResult, PaginatedList } from "app/store/types";
 import { bnOrZero, SimpleMap, toHumanNumber } from "app/utils";
 import { HTTP, logger } from "core/utilities";

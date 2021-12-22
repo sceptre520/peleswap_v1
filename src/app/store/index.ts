@@ -7,10 +7,10 @@ import sagaMiddleware from "app/saga";
 import combinedReducers from "./reducers";
 
 const middlewares: Middleware[] = [thunk, sagaMiddleware];
-if ((!process.env.NODE_ENV || process.env.NODE_ENV === 'development') && !process.env.REACT_APP_DISABLE_REDUX_LOGGER)
-  middlewares.push(createLogger({
-    predicate: (getState, action) => !["ADD_BACKGROUND_LOADING", "REMOVE_BACKGROUND_LOADING"].includes(action.type),
-  }));
+// if ((!process.env.NODE_ENV || process.env.NODE_ENV === 'development') && !process.env.REACT_APP_DISABLE_REDUX_LOGGER)
+//   middlewares.push(createLogger({
+//     predicate: (getState, action) => !["ADD_BACKGROUND_LOADING", "REMOVE_BACKGROUND_LOADING"].includes(action.type),
+//   }));
 
 // redux 4 does not have a easy workaround createStore needing 4 type arguments.
 // @ts-ignore

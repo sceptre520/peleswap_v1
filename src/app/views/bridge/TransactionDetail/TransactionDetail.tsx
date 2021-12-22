@@ -9,7 +9,7 @@ import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import cls from "classnames";
 import { useDispatch } from "react-redux";
 import { Blockchain } from "tradehub-api-js";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { CurrencyLogo, FancyButton, HelpInfo, KeyValueDisplay, MnemonicDialog, Text } from "app/components";
 import { ReactComponent as StraightLine } from "app/components/ConfirmTransfer/straight-line.svg";
 import { ReactComponent as NewLinkIcon } from "app/components/new_link.svg";

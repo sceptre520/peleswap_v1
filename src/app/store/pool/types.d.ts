@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { TokenInfo } from "../token/types";
 
 export interface PoolFormState {

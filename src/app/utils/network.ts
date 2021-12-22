@@ -1,5 +1,5 @@
 import { TradeHubSDK } from "tradehub-api-js";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 
 export const netTradeHubToZil = (network: TradeHubSDK.Network): Network => {
   switch (network) {

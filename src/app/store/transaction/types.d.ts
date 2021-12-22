@@ -1,5 +1,5 @@
-import { ObservedTx, TxReceipt, TxStatus } from "zilswap-sdk";
-import { Network } from "zilswap-sdk/lib/constants";
+import { ObservedTx, TxReceipt, TxStatus } from "peleswap-sdk";
+import { Network } from "peleswap-sdk/lib/constants";
 
 export type WalletObservedTx = {
   network: Network;

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { delay, fork, put, select } from "redux-saga/effects";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { GetLiquidityOpts, SwapVolume, ZAPStats, logger } from "core/utilities";
 import { STATS_REFRESH_RATE } from "app/utils/constants";
 import { PoolLiquidityMap } from "app/store/types";

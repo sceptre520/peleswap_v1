@@ -9,7 +9,7 @@ import { actions } from "app/store";
 import { AmountLabel, ContrastBox, KeyValueDisplay, PoolLogo, Text } from "app/components";
 import { PotentialRewards, RootState, TokenInfo, TokenState } from "app/store/types";
 import { AppTheme } from "app/theme/types";
-import { BIG_ZERO, ZIL_ADDRESS } from "app/utils/constants";
+import { BIG_ZERO, ZIL_ADDRESS, PELE_ADDRESS } from "app/utils/constants";
 import { toHumanNumber } from "app/utils";
 import { useNetwork, useValueCalculators } from "app/utils";
 import { EMPTY_USD_VALUE } from "app/store/token/reducer";
@@ -47,7 +47,7 @@ const PoolInfoDropdown: React.FC<Props> = (props: Props) => {
   const potentialRewardsByPool = useSelector<RootState, PotentialRewards>((state) => state.rewards.potentialRewardsByPool);
   const tokenState = useSelector<RootState, TokenState>((state) => state.token);
   const [active, setActive] = useState<boolean>(false);
-  const poolPair: [string, string] = [token.symbol, "ZIL"];
+  const poolPair: [string, string] = [token.symbol, "PELE"];
 
   const onToggleDropdown = () => {
     setActive(!active);
@@ -56,7 +56,7 @@ const PoolInfoDropdown: React.FC<Props> = (props: Props) => {
   const poolShare = token.pool?.contributionPercentage.shiftedBy(-2) ?? BIG_ZERO;
   const poolShareLabel = poolShare.shiftedBy(2).decimalPlaces(3).toString(10) ?? "";
   const tokenAmount = poolShare.times(token.pool?.tokenReserve ?? BIG_ZERO);
-  const zilAmount = poolShare.times(token.pool?.zilReserve ?? BIG_ZERO);
+  const peleAmount = poolShare.times(token.pool?.zilReserve ?? BIG_ZERO);
 
   const poolValue = valueCalculators.pool(tokenState.prices, token);
   const depositedValue = poolShare.times(poolValue);
@@ -114,9 +114,9 @@ const PoolInfoDropdown: React.FC<Props> = (props: Props) => {
             <AmountLabel
               iconStyle="small"
               justifyContent="flex-end"
-              currency="ZIL"
-              address={ZIL_ADDRESS}
-              amount={zilAmount} />
+              currency="PELE"
+              address={PELE_ADDRESS[network]}
+              amount={peleAmount} />
             <Text variant="body2" className={classes.textGreen} align="right">
               ≈ ${toHumanNumber(depositedValue, 2)}
             </Text>

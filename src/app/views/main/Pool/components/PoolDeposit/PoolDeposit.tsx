@@ -5,13 +5,13 @@ import { fromBech32Address } from "@zilliqa-js/crypto";
 import BigNumber from "bignumber.js";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { CONTRACTS } from "zilswap-sdk/lib/constants";
+import { CONTRACTS } from "peleswap-sdk/lib/constants";
 import { ZilswapConnector, toBasisPoints } from "core/zilswap";
 import { CurrencyInput, FancyButton, ProportionSelect } from "app/components";
 import { actions } from "app/store";
 import { PoolFormState, RootState, SwapFormState, TokenInfo, TokenState, WalletObservedTx, WalletState } from "app/store/types";
 import { bnOrZero, useAsyncTask, useNetwork, useToaster } from "app/utils";
-import { BIG_ZERO, ZIL_ADDRESS } from "app/utils/constants";
+import { BIG_ZERO, PELE_ADDRESS, PELE_DECIMALS, ZIL_ADDRESS } from "app/utils/constants";
 import { AppTheme } from "app/theme/types";
 import PoolDetail from "../PoolDetail";
 import PoolIcon from "../PoolIcon";
@@ -119,7 +119,7 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
   };
 
   const onPoolChange = (token: TokenInfo) => {
-    if (token.symbol === "ZIL") return;
+    if (token.symbol === "PELE") return;
     dispatch(actions.Pool.select({ token, network }));
     onTokenChange("0");
   };
@@ -131,8 +131,8 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
       if (bnZilAmount.isNegative() || bnZilAmount.isNaN() || !bnZilAmount.isFinite())
         bnZilAmount = BIG_ZERO;
 
-      const zilToken = tokenState.tokens[ZIL_ADDRESS];
-      const rate = poolToken.pool?.exchangeRate.shiftedBy(poolToken!.decimals - zilToken.decimals);
+      const peleToken = tokenState.tokens[PELE_ADDRESS[network]];
+      const rate = poolToken.pool?.exchangeRate.shiftedBy(poolToken!.decimals - peleToken.decimals);
       let bnTokenAmount = bnZilAmount.div(rate || 1).decimalPlaces(poolToken.decimals);
       const tokenAmount = bnTokenAmount.toString();
 
@@ -161,9 +161,9 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
       if (bnTokenAmount.isNegative() || bnTokenAmount.isNaN() || !bnTokenAmount.isFinite())
         bnTokenAmount = BIG_ZERO;
 
-      const zilToken = tokenState.tokens[ZIL_ADDRESS];
-      const rate = poolToken.pool?.exchangeRate.shiftedBy(poolToken!.decimals - zilToken.decimals);
-      let bnZilAmount = bnTokenAmount.times(rate || 1).decimalPlaces(zilToken?.decimals || 12);
+      const peleToken = tokenState.tokens[PELE_ADDRESS[network]];
+      const rate = poolToken.pool?.exchangeRate.shiftedBy(poolToken!.decimals - peleToken.decimals);
+      let bnZilAmount = bnTokenAmount.times(rate || 1).decimalPlaces(peleToken?.decimals || 12);
       const zilAmount = bnZilAmount.toString();
 
       setFormState({
@@ -196,8 +196,8 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
       const { addTokenAmount, addZilAmount } = poolFormState;
       const { slippage } = swapFormState;
       const tokenBalance = bnOrZero(poolToken!.balance).shiftedBy(-poolToken.decimals);
-      const zilToken = tokenState.tokens[ZIL_ADDRESS];
-      const zilBalance = bnOrZero(zilToken!.balance).shiftedBy(-zilToken.decimals);
+      const peleToken = tokenState.tokens[PELE_ADDRESS[network]];
+      const zilBalance = bnOrZero(peleToken!.balance).shiftedBy(-peleToken.decimals);
 
       if (addTokenAmount.gt(tokenBalance)) {
         throw new Error(`Insufficient ${poolToken.symbol} balance.`)
@@ -207,8 +207,8 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
         throw new Error(`Insufficient ZIL balance.`)
       }
 
-      if (addZilAmount.lt(1000)) {
-        throw new Error('Minimum contribution is 1000 ZILs.')
+      if (addZilAmount.lt(10)) {
+        throw new Error('Minimum contribution is 10 PELEs.')
       }
 
       if (zilBalance.minus(addZilAmount).lt(5)) {
@@ -219,7 +219,7 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
 
       const observedTx = await ZilswapConnector.addLiquidity({
         tokenAmount: addTokenAmount.shiftedBy(poolToken.decimals),
-        zilAmount: addZilAmount.shiftedBy(zilToken.decimals),
+        zilAmount: addZilAmount.shiftedBy(peleToken.decimals),
         tokenID: tokenAddress,
         maxExchangeRateChange: toBasisPoints(slippage).toNumber(),
       });
@@ -279,6 +279,9 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
   if (poolToken) {
     const addTokenUnitlessAmount = poolFormState.addTokenAmount.shiftedBy(poolToken.decimals);
     showTxApprove = bnOrZero(poolToken.allowances?.[byte20ContractAddress]).comparedTo(addTokenUnitlessAmount) < 0
+    const peleToken = tokenState.tokens[PELE_ADDRESS[network]];
+    const addPeleUnitlessAmount = poolFormState.addZilAmount.shiftedBy(PELE_DECIMALS);
+    showTxApprove = showTxApprove && (bnOrZero(peleToken.allowances?.[byte20ContractAddress]).comparedTo(addPeleUnitlessAmount) < 0)
   }
 
   return (
@@ -310,7 +313,7 @@ const PoolDeposit: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props: any)
 
         <CurrencyInput fixedToken
           label="Deposit"
-          token={tokenState.tokens[ZIL_ADDRESS]}
+          token={tokenState.tokens[PELE_ADDRESS[network]]}
           amount={formState.zilAmount}
           disabled={!poolToken}
           onEditorBlur={onDoneEditing}

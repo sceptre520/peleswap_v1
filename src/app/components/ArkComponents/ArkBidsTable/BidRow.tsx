@@ -11,7 +11,7 @@ import BigNumber from "bignumber.js"
 import dayjs, { Dayjs } from "dayjs";
 import { useSelector } from "react-redux";
 import { darken } from '@material-ui/core/styles';
-import { ObservedTx } from "zilswap-sdk";
+import { ObservedTx } from "peleswap-sdk";
 import { AppTheme } from "app/theme/types";
 import { Cheque, WalletState } from "app/store/types";
 import { bnOrZero, toSignificantNumber, useAsyncTask, useToaster, useValueCalculators } from "app/utils";

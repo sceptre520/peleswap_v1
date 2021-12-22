@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import dayjs from "dayjs";
 import { Blockchain, RestModels } from "tradehub-api-js";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 
 export type BridgeableToken = {
   blockchain: Blockchain;

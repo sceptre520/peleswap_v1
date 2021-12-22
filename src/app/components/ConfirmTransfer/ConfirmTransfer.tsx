@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Blockchain, ConnectedTradeHubSDK, RestModels, SWTHAddress, TradeHubSDK } from "tradehub-api-js";
 import { BN_ONE } from "tradehub-api-js/build/main/lib/tradehub/utils";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { ConnectedBridgeWallet } from "core/wallet/ConnectedBridgeWallet";
 import { ConnectedWallet } from "core/wallet";
 import { isDebug, logger } from "core/utilities";

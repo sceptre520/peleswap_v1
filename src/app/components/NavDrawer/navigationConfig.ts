@@ -66,7 +66,7 @@ const navigationConfig: NavigationOptions[] = [{
       show: true,
     }, {
       title: "SDK",
-      href: "https://github.com/Switcheo/zilswap-sdk",
+      href: "https://github.com/Switcheo/peleswap-sdk",
       icon: "Category",
       external: true,
       show: true,

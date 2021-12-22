@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import { ZiloAppState } from 'zilswap-sdk/lib/zilo';
+import { ZiloAppState } from 'peleswap-sdk/lib/zilo';
 import { Box, CircularProgress, Link, Typography, makeStyles } from '@material-ui/core'
 import { fromBech32Address } from "@zilliqa-js/crypto";
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
 import { Dayjs } from 'dayjs';
-import { ILOState } from 'zilswap-sdk/lib/constants';
-import { ObservedTx } from 'zilswap-sdk';
+import { ILOState } from 'peleswap-sdk/lib/constants';
+import { ObservedTx } from 'peleswap-sdk';
 import cls from "classnames";
 import { BLOCKS_PER_MINUTE, ILOData } from 'core/zilo/constants';
 import { ZilswapConnector } from "core/zilswap";

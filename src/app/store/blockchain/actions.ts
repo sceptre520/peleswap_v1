@@ -1,5 +1,5 @@
-import { Network } from "zilswap-sdk/lib/constants";
-import { ZiloAppState } from "zilswap-sdk/lib/zilo";
+import { Network } from "peleswap-sdk/lib/constants";
+import { ZiloAppState } from "peleswap-sdk/lib/zilo";
 import { ChainInitProps } from './types'
 
 export const BlockchainActionTypes = {

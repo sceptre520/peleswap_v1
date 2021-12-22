@@ -1,6 +1,6 @@
 import { Account } from "@zilliqa-js/account/dist/account";
 import dayjs, { Dayjs } from "dayjs";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { DefaultFallbackNetwork } from "app/utils/constants";
 import { ConnectedWallet, WalletAccountInfo, WalletConnectType } from "./ConnectedWallet";
 

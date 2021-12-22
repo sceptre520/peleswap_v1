@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { SimpleMap } from "./types";
 
 export const DefaultFallbackNetwork = Network.MainNet;
@@ -81,6 +81,11 @@ export const BRIDGE_TX_DEPOSIT_CONFIRM_ETH = 12;
 export const ETH_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const ZIL_ADDRESS = "zil1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq9yf6pz";
 export const ZIL_DECIMALS = 12;
+export const PELE_ADDRESS = {
+  [Network.MainNet]: "zil1gvr0jgwfsfmxsyx0xsnhtlte4gks6r3yk8x5fn",
+  [Network.TestNet]: "zil1l8cz5x99ynfyzmxmrc5k5z45shq8crmc46ntw6",
+}
+export const PELE_DECIMALS = 1;
 
 export const TOKEN_NAME_OVERRIDE: SimpleMap<string> = {
   // Legacy XCAD Network token

@@ -1,10 +1,10 @@
 
 import { Channel, EventChannel, channel, eventChannel } from "redux-saga";
 import { call, cancelled, fork, put, select, take, takeEvery } from "redux-saga/effects";
-import { AppState, ObservedTx, TxReceipt, TxStatus, Zilswap } from "zilswap-sdk";
-import { ZiloAppState } from "zilswap-sdk/lib/zilo"
+import { AppState, ObservedTx, TxReceipt, TxStatus, Zilswap } from "peleswap-sdk";
+import { ZiloAppState } from "peleswap-sdk/lib/zilo"
 
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { Blockchain } from "tradehub-api-js";
 import { ConnectedWallet, WalletConnectType, connectWalletBoltX, connectWalletZilPay } from "core/wallet";
 import { ZILO_DATA } from "core/zilo/constants";

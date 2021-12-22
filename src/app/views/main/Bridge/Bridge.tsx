@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 import { useDispatch, useSelector } from 'react-redux';
 import { Blockchain, RestModels, TradeHubSDK } from "tradehub-api-js";
 import Web3Modal from 'web3modal';
-import { Network } from "zilswap-sdk/lib/constants";
+import { Network } from "peleswap-sdk/lib/constants";
 import { ConnectedBridgeWallet } from "core/wallet/ConnectedBridgeWallet";
 import { ConnectedWallet } from "core/wallet";
 import { providerOptions } from "core/ethereum";

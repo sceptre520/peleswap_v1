@@ -11,6 +11,6 @@ export const isDebug = () =>
 
 export const logger = function (...args: any) {
   if (isDebug()) {
-    console.log.apply(console, args);
+    // console.log.apply(console, args);
   }
 };
